@@ -1,0 +1,105 @@
+{
+  "name": "Book",
+  "type": "object",
+  "properties": {
+    "book_title": {
+      "type": "string",
+      "description": "AI-generated comedic title of the book"
+    },
+    "recipient_name": {
+      "type": "string",
+      "description": "Name of the person the book is about"
+    },
+    "author_name": {
+      "type": "string",
+      "description": "Name of the person gifting the book"
+    },
+    "relationship": {
+      "type": "string",
+      "enum": [
+        "Best Friend",
+        "Partner",
+        "Boss",
+        "Sibling",
+        "Coworker",
+        "Parent",
+        "Other"
+      ],
+      "default": "Best Friend"
+    },
+    "tone": {
+      "type": "string",
+      "enum": [
+        "lighthearted",
+        "roast",
+        "satirical",
+        "affectionate"
+      ],
+      "default": "lighthearted"
+    },
+    "answers": {
+      "type": "object",
+      "description": "Questionnaire answers (inside jokes, quirks, etc.)"
+    },
+    "dedication": {
+      "type": "string"
+    },
+    "chapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "chapterTitle": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "footerJoke": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "generated",
+        "ordered"
+      ],
+      "default": "draft"
+    },
+    "print_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "received",
+        "printing",
+        "shipped",
+        "delivered"
+      ],
+      "default": "pending",
+      "description": "Current print-on-demand fulfillment status"
+    },
+    "shipping_address": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string",
+      "description": "Customer email collected by Stripe Checkout for fulfillment notifications"
+    },
+    "tracking_number": {
+      "type": "string"
+    },
+    "lulu_job_id": {
+      "type": "string",
+      "description": "Lulu Direct print-job id once the order has been submitted for printing"
+    }
+  },
+  "required": [
+    "recipient_name",
+    "author_name",
+    "relationship"
+  ]
+}

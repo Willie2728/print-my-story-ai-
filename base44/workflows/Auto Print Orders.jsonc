@@ -1,0 +1,40 @@
+{
+  "name": "Auto Print Orders",
+  "description": "When a book order is confirmed paid (status -> ordered), submit it to Lulu Direct for print-on-demand fulfillment",
+  "trigger": {
+    "config": {
+      "trigger_type": "entity",
+      "entity_name": "Book",
+      "events": [
+        "update"
+      ]
+    },
+    "condition": "${ .trigger.data.status == \"ordered\" and .trigger.old_data.status != \"ordered\" and .trigger.data.print_status == \"received\" }"
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "auto_print_orders",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "submit_to_lulu": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "submit-lulu-print-job",
+            "args": {
+              "book_id": "${ .trigger.entity_id }"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Submit to Lulu",
+            "description": "Generate PDFs and create the print job"
+          }
+        }
+      }
+    ]
+  }
+}
