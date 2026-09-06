@@ -6,10 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { base44 } from "@/api/base44Client";
 
-const PRICE = 34.99;
-const SHIPPING = 4.99;
-const TOTAL = (PRICE + SHIPPING).toFixed(2);
-
 export default function CheckoutStep({ book, onBack, successPath = "/order-success", cancelPath = "/create" }) {
   const [form, setForm] = useState({ address: "", city: "", state: "", zip: "", country: "United States", phone: "" });
   const [submitting, setSubmitting] = useState(false);
@@ -65,7 +61,7 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
             <Label className="mb-2 block">Payment</Label>
             <div className="rounded-xl border-2 border-dashed border-stone-200 p-4 text-center text-sm text-stone-400">
               <CreditCard className="w-5 h-5 mx-auto mb-1.5 text-stone-300" />
-              Secure Stripe checkout · Apple Pay · Google Pay · Card
+              Stripe Checkout is used when the published app and payment configuration are available. Final item, shipping, tax, and total amounts are confirmed in the Stripe session.
             </div>
           </div>
         </div>
@@ -82,13 +78,10 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
               <div className="text-xs text-stone-500">For {book.recipient_name}</div>
             </div>
           </div>
-          <div className="space-y-1.5 text-sm border-t border-stone-200 pt-3">
-            <Row label="Book" value={`$${PRICE.toFixed(2)}`} />
-            <Row label="Shipping" value={`$${SHIPPING.toFixed(2)}`} />
-            <div className="flex justify-between font-bold text-base pt-2 border-t border-stone-200">
-              <span>Total</span>
-              <span>${TOTAL}</span>
-            </div>
+          <div className="space-y-2 text-sm border-t border-stone-200 pt-3">
+            <Row label="Format" value="Paperback" />
+            <Row label="Pricing" value="Confirmed in Stripe" />
+            <p className="text-xs text-stone-500 leading-relaxed pt-1">The app does not promise a hard-coded total before the live Stripe session is created. Review the item, shipping, tax, and total amounts in Stripe before paying.</p>
           </div>
           <Button
             disabled={!valid || submitting}
@@ -98,11 +91,11 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
             {submitting ? (
               <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> Redirecting to Stripe…</>
             ) : (
-              <><Lock className="w-4 h-4 mr-1.5" /> Place order · ${TOTAL}</>
+              <><Lock className="w-4 h-4 mr-1.5" /> Continue to Stripe</>
             )}
           </Button>
           <div className="flex items-center justify-center gap-1.5 mt-3 text-xs text-stone-400">
-            <Truck className="w-3.5 h-3.5" /> Ships in 5–7 business days
+            <Truck className="w-3.5 h-3.5" /> Shipping availability and timing are confirmed by the configured fulfillment flow after a successful order.
           </div>
         </div>
       </div>
