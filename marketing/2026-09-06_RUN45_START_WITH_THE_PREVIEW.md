@@ -13,14 +13,14 @@ Personalization can create value, but customization friction can also create anx
 **CTA:** Start Your Preview.
 
 ## Production Readiness
-Connected Base44 Home already truthfully conditions print fulfillment and shipping on configured payment/fulfillment services. In Run 45, the primary/nav/final CTA labels were tightened from generic creation language to **Start Your Preview**, aligning acquisition copy with the strongest verifiable interaction.
+Connected Base44 Home truthfully conditions print fulfillment and shipping on configured payment/fulfillment services. In Run 45, the nav, hero, and final CTA labels were tightened to **Start Your Preview**, aligning acquisition copy with the strongest verifiable interaction.
 
-Base44 sandbox verification after the CTA edit: `cd /app && npm run build` → exit code 0. No video or new image was rendered.
+Base44 sandbox verification after the CTA edit: `cd /app && npm run build` → exit code 0. Checkpoint `6a9d77d3ab15ecd72b2b7238`, app git hash `297961ab3fb9d34dc9f054fc8839179d305a56fd`. No video or new image was rendered.
 
-GitHub review found the prior Home source materially stale: legacy `Print A Story` branding, fabricated five-star testimonials, unconditional “We print & ship” language, a 5–7 day shipping promise, and “the book writes itself.” That source was replaced with the current truth-hardened Base44 Home at commit `68ed7354ee279fceb7101d6daca93fa51e4f2de0`. The latest Base44 CTA-label micro-edit occurred after that sync and should be parity-checked in the Build Liaison before calling the app-source trees identical.
+GitHub review found the prior Home source materially stale: legacy `Print A Story` branding, fabricated five-star testimonials, unconditional “We print & ship” language, a 5–7 day shipping promise, and “the book writes itself.” The source was truth-synced in commit `68ed7354ee279fceb7101d6daca93fa51e4f2de0`, and the latest **Start Your Preview** CTA labels were synchronized in commit `48d71d621c5c7f78d4dc92b7bdf4f0b22ec34f52`. The reviewed Home surface is therefore source-parity reconciled for Run 45.
 
 ## Distribution Queue
-Use short gift-occasion creative that demonstrates the low-friction sequence rather than making fulfillment promises: recipient → 10 guided questions → draft → preview → edit → optional checkout. Proposed campaign family: `print_my_story_start_with_preview`.
+Use short gift-occasion creative that demonstrates the low-friction sequence rather than making fulfillment promises: recipient → guided questions → draft → preview → edit → optional checkout. Proposed campaign family: `print_my_story_start_with_preview`. Do not mark any post live without external publication verification.
 
 ## Analytics / Evaluation
 The key conversion question is whether preview-first creative increases starts of the creation flow and progression into preview relative to generic “buy a personalized book” messaging. Do not infer purchase, print, shipment, or delivery without order/provider records.
