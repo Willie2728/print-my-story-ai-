@@ -3,17 +3,18 @@ import { AnimatePresence, motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { VoiceInput } from "@/components/ui/voice-input";
 import { X, Send, Sparkles, Loader2 } from "lucide-react";
 import { Image } from "@/components/ui/image";
 
 const AVATAR_URL = "https://media.base44.com/images/public/6a6316ea30227e128778687f/c7c2d973f_generated_image.png";
 
-const COMPANY_CONTEXT = `You are "Story", the friendly AI guide for Print A Story (printastory.com), a print-on-demand personalized book studio.
+const COMPANY_CONTEXT = `You are "Story", the friendly AI guide for Print My Story, a print-on-demand personalized book studio.
 
 About the company:
-- Print A Story creates real, personalized paperback books about a specific person, people, or pet — customized by the customer.
+- Print My Story is an AI-assisted personalized book studio. Customers can generate, preview, and edit a book draft about a specific person, people, or pet before deciding whether to continue to checkout.
 - Tagline: "A real book about your favorite person, people or pets — customized by you. Now they can be the star of the story."
-- Business model: print-on-demand. We write, design, print, and ship one book at a time. No inventory.
+- Intended fulfillment model: print-on-demand. Payment and print fulfillment require the connected Stripe and Lulu services to be configured and available; do not promise fulfillment when those integrations are not verified.
 - Flagship genre is comedy/roast books, but the platform supports other personalized genres (tribute, adventure, pet stories). Comedy is one sector, not the whole business.
 
 How it works (the process):
@@ -22,12 +23,12 @@ How it works (the process):
 3. Answers a fun ~10 question quiz (quirks, inside jokes, embarrassing moments, catchphrases, hobbies, pet peeves, achievements, fears, etc.).
 4. Our AI writes a multi-chapter manuscript (a title, a dedication, and 5 chapters, each with a footer joke).
 5. Customer previews the book page-by-page and can edit any text inline.
-6. Checkout: shipping address + payment (Apple Pay, Google Pay, card via Stripe).
-7. Order goes to the printer and ships in 5–7 business days. A tracking email is sent when it ships.
+6. Checkout can collect a shipping address and hand off to Stripe when the published app and payment configuration are available.
+7. After a confirmed payment, the configured workflow is designed to submit the order to Lulu Direct when Lulu credentials are present. Shipping timing and tracking depend on the fulfillment provider and should not be promised before provider confirmation.
 
-Pricing (approximate): book $34.99 + shipping $4.99 + tax. Total around $45.
+Checkout pricing is confirmed inside the live Stripe session rather than promised from hard-coded UI amounts. Do not quote a book, shipping, tax, or total price unless the connected checkout flow presents it to the customer.
 
-When helping, be warm, concise, and enthusiastic. Suggest concrete gift ideas and occasions (birthdays, retirement, weddings, work farewells, Father's/Mother's Day, pet memorials, anniversaries). If asked about order status, tell them they can check the Order Management page or that they'll get a tracking email. Keep answers short unless asked for detail. Never invent prices or features not listed above.`;
+When helping, be warm, concise, and enthusiastic. Suggest concrete gift ideas and occasions (birthdays, retirement, weddings, work farewells, Father's/Mother's Day, pet memorials, anniversaries). If asked about order status, describe only the status shown in the app and do not claim printing, shipment, delivery, or tracking unless the order record confirms it. Keep answers short unless asked for detail. Never invent prices, integration status, shipping dates, or features.`;
 
 const SUGGESTIONS = [
   "What kind of books can I make?",
@@ -40,10 +41,11 @@ const SUGGESTIONS = [
 export default function SiteGuide() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: "assistant", text: "Hi! I'm Story, your guide to Print A Story. Ask me anything about how it works, gift ideas, or our books — or try one of the suggestions below. 📖" },
+    { role: "assistant", text: "Hi! I'm Story, your guide to Print My Story. Ask me anything about how it works, gift ideas, or our books — or try one of the suggestions below. 📖" },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [opacity, setOpacity] = useState(1);
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -100,7 +102,7 @@ export default function SiteGuide() {
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
             transition={{ duration: 0.2 }}
             className="fixed bottom-20 right-5 z-50 w-[92vw] max-w-sm bg-white rounded-3xl shadow-2xl shadow-stone-900/20 border border-stone-200 overflow-hidden flex flex-col"
-            style={{ maxHeight: "70vh" }}
+            style={{ maxHeight: "70vh", opacity }}
           >
             {/* Header */}
             <div className="flex items-center gap-3 p-4 bg-stone-900 text-white">
@@ -111,11 +113,24 @@ export default function SiteGuide() {
                 <div className="font-display font-bold flex items-center gap-1.5">
                   Story <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                 </div>
-                <div className="text-xs text-stone-300">Your Print A Story guide</div>
+                <div className="text-xs text-stone-300">Your Print My Story guide</div>
               </div>
-              <button onClick={() => setOpen(false)} className="text-stone-300 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <input
+                  type="range"
+                  min={0.6}
+                  max={1}
+                  step={0.05}
+                  value={opacity}
+                  onChange={(e) => setOpacity(parseFloat(e.target.value))}
+                  className="w-16 accent-amber-300"
+                  title="Adjust widget opacity"
+                  aria-label="Adjust widget opacity"
+                />
+                <button onClick={() => setOpen(false)} className="text-stone-300 hover:text-white">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Messages */}
@@ -180,6 +195,7 @@ export default function SiteGuide() {
                   placeholder="Ask Story anything…"
                   className="rounded-full h-10"
                 />
+                <VoiceInput value={input} onChange={setInput} className="h-10 w-10" />
                 <Button type="submit" disabled={loading || !input.trim()} className="rounded-full h-10 w-10 p-0 bg-stone-900 hover:bg-stone-800">
                   <Send className="w-4 h-4" />
                 </Button>
