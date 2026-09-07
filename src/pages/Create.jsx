@@ -126,8 +126,20 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
 
   const editChapter = (idx, patch) => {
     setBook({ ...book, chapters: book.chapters.map((c, i) => (i === idx ? { ...c, ...patch } : c)) });
+    trackStoryGrowth("preview_edit", {
+      relationshipCategory: relationship,
+      tone: details.tone,
+      metadata: { edit_type: "chapter", chapter_index: idx, changed_fields: Object.keys(patch || {}).sort() },
+    });
   };
-  const editDedication = (value) => setBook({ ...book, dedication: value });
+  const editDedication = (value) => {
+    setBook({ ...book, dedication: value });
+    trackStoryGrowth("preview_edit", {
+      relationshipCategory: relationship,
+      tone: details.tone,
+      metadata: { edit_type: "dedication" },
+    });
+  };
 
   const saveAndComplete = async () => {
     try {
@@ -185,7 +197,11 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
             book={book}
             onEditChapter={editChapter}
             onEditDedication={editDedication}
-            onNext={() => { trackStoryGrowth("checkout_view", { relationshipCategory: relationship, tone: details.tone }); setStep(5); }}
+            onNext={() => {
+              trackStoryGrowth("preview_approved", { relationshipCategory: relationship, tone: details.tone, metadata: { approval_surface: "book_preview", measurement_version: "run80-v1" } });
+              trackStoryGrowth("checkout_view", { relationshipCategory: relationship, tone: details.tone });
+              setStep(5);
+            }}
             onBack={() => setStep(2)}
           />
         )}
