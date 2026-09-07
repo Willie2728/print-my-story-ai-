@@ -34,7 +34,7 @@ export default function CategoryGrid({ createLink = "/create" }) {
               to={createLink}
               className="shrink-0 inline-flex items-center gap-1 text-xs font-medium text-stone-900 hover:text-amber-700 transition-colors"
             >
-              Create <ArrowRight className="w-3.5 h-3.5" />
+              Preview <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </motion.div>
