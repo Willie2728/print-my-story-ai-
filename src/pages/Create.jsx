@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeft, BookOpen } from "lucide-react";
@@ -10,6 +10,7 @@ import QuestionnaireStep from "@/components/create/QuestionnaireStep";
 import GenerationStep from "@/components/create/GenerationStep";
 import PreviewStep from "@/components/create/PreviewStep";
 import CheckoutStep from "@/components/create/CheckoutStep";
+import { trackStoryGrowth } from "@/lib/growthAnalytics";
 
 const DEFAULT_ANSWERS = {
   pronouns: "",
@@ -31,6 +32,13 @@ export default function Create() {
   const [answers, setAnswers] = useState(DEFAULT_ANSWERS);
   const [book, setBook] = useState(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const key = "print_my_story_preview_start_tracked";
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    trackStoryGrowth("preview_start", { metadata: { measurement_version: "run70-v1" } });
+  }, []);
 
   const generateBook = async () => {
     setError("");
@@ -99,8 +107,18 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
         dedication: res.dedication,
         chapters: res.chapters,
       });
+      trackStoryGrowth("generation_success", {
+        relationshipCategory: relationship,
+        tone: details.tone,
+        metadata: { chapter_count: Array.isArray(res.chapters) ? res.chapters.length : 0 },
+      });
       setStep(4);
     } catch (e) {
+      trackStoryGrowth("generation_failed", {
+        relationshipCategory: relationship,
+        tone: details.tone,
+        metadata: { failure_stage: "book_generation" },
+      });
       setError("Something went wrong generating your book. Please try again.");
       setStep(2);
     }
@@ -143,7 +161,7 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
         )}
 
         {step === 0 && (
-          <RelationshipStep value={relationship} onSelect={setRelationship} onNext={() => setStep(1)} />
+          <RelationshipStep value={relationship} onSelect={setRelationship} onNext={() => { trackStoryGrowth("relationship_selected", { relationshipCategory: relationship }); setStep(1); }} />
         )}
         {step === 1 && (
           <DetailsStep
@@ -157,7 +175,7 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
           <QuestionnaireStep
             answers={answers}
             onChange={setAnswers}
-            onNext={() => setStep(3)}
+            onNext={() => { trackStoryGrowth("questionnaire_complete", { relationshipCategory: relationship, tone: details.tone, metadata: { answered_count: Object.values(answers).filter((v) => typeof v === "string" && v.trim()).length } }); setStep(3); }}
             onBack={() => setStep(1)}
           />
         )}
@@ -167,7 +185,7 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
             book={book}
             onEditChapter={editChapter}
             onEditDedication={editDedication}
-            onNext={() => setStep(5)}
+            onNext={() => { trackStoryGrowth("checkout_view", { relationshipCategory: relationship, tone: details.tone }); setStep(5); }}
             onBack={() => setStep(2)}
           />
         )}
