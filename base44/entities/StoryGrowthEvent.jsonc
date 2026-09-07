@@ -1,0 +1,17 @@
+{
+  "name": "StoryGrowthEvent",
+  "type": "object",
+  "properties": {
+    "event_type": { "type": "string", "enum": ["landing_view", "preview_start", "relationship_selected", "questionnaire_complete", "generation_success", "generation_failed", "checkout_view", "checkout_session_created", "payment_confirmed"] },
+    "session_id": { "type": "string", "description": "Anonymous browser-session identifier. Never store recipient names, author names, questionnaire text, email, phone, or shipping address here." },
+    "path": { "type": "string" },
+    "source": { "type": "string" },
+    "campaign": { "type": "string" },
+    "content_variant": { "type": "string" },
+    "relationship_category": { "type": "string" },
+    "tone": { "type": "string" },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "metadata": { "type": "object", "additionalProperties": true }
+  },
+  "required": ["event_type", "occurred_at"]
+}
