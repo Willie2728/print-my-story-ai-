@@ -1,7 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Play, RotateCcw, Volume2, VolumeX, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { trackStoryGrowth } from "@/lib/growthAnalytics";
 
 const VIDEO_URL =
   "https://media.base44.com/videos/public/6a6316ea30227e128778687f/6e666e5b8_Christmas_Commercial.mp4";
@@ -9,6 +11,7 @@ const NARRATION_URL =
   "https://media.base44.com/files/public/6a6316ea30227e128778687f/79e16604d_speech.mp3";
 
 export default function Commercial() {
+  const navigate = useNavigate();
   const videoRef = useRef(null);
   const audioRef = useRef(null);
   const [started, setStarted] = useState(false);
@@ -68,6 +71,11 @@ export default function Commercial() {
     if (a) { a.currentTime = 0; a.play().catch(() => {}); }
   };
 
+  const goToCreate = async () => {
+    await trackStoryGrowth("preview_cta_click", { metadata: { surface: "commercial", measurement_version: "run107-v1" } });
+    navigate("/create");
+  };
+
   return (
     <div className="min-h-screen bg-black flex flex-col">
       <div className="relative w-full max-w-6xl mx-auto flex-1 flex items-center justify-center px-4 py-6">
@@ -120,7 +128,7 @@ export default function Commercial() {
               >
                 <div>
                   <p className="text-amber-300 text-xs tracking-[0.25em] uppercase mb-2 drop-shadow">
-                    Print A Story
+                    Print My Story
                   </p>
                   <h1 className="text-white font-display text-3xl sm:text-5xl font-bold leading-tight drop-shadow-lg max-w-xl">
                     Give a story they'll cherish forever.
@@ -141,12 +149,10 @@ export default function Commercial() {
                     </Button>
                   )}
                   <Button
-                    asChild
+                    onClick={goToCreate}
                     className="rounded-full bg-amber-500 hover:bg-amber-400 text-stone-900 h-11 px-6"
                   >
-                    <a href="/create">
-                      Create Yours <ArrowRight className="w-4 h-4 ml-1.5" />
-                    </a>
+                    Start Your Preview <ArrowRight className="w-4 h-4 ml-1.5" />
                   </Button>
                 </div>
               </motion.div>
@@ -169,7 +175,7 @@ export default function Commercial() {
       {/* Caption strip */}
       <div className="w-full max-w-3xl mx-auto px-4 pb-8 text-center">
         <p className="text-stone-400 text-sm">
-          No cartoon — every page printed on demand, made for the names you love.
+          No cartoon — preview the personalized book before checkout; print fulfillment depends on the connected service being configured and available.
         </p>
       </div>
     </div>
