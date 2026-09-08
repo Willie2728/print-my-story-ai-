@@ -6,7 +6,7 @@ A generated preview is not the same thing as a gift-ready preview. The product s
 ## Creative Strategy
 **PMS-TXT-074 — Why did this preview earn checkout?**
 
-The preview now offers an optional three-part buyer self-check before checkout:
+The preview offers an optional three-part buyer self-check before checkout:
 - It feels recognizably about them.
 - The tone feels right for the relationship.
 - At least one detail feels specific, not generic.
@@ -14,17 +14,16 @@ The preview now offers an optional three-part buyer self-check before checkout:
 This is not a mandatory checkout gate.
 
 ## Production Readiness
-Implemented in Base44 `src/components/create/PreviewStep.jsx` and `src/pages/Create.jsx`.
+Implemented across the standard and Companion book-preview paths. `preview_approved` and `checkout_view` now carry `buyer_fit_signal_count`, `buyer_fit_signals`, and `measurement_version: run98-v1`; preview approval explicitly records `checkout_gated_on_fit_signal:false`.
 
-`preview_approved` and `checkout_view` now carry `buyer_fit_signal_count`, `buyer_fit_signals`, and `measurement_version: run98-v1`. The metadata explicitly records `checkout_gated_on_fit_signal: false` for preview approval.
-
-Base44 checkpoint: `6a9ff048108ec4d02e3e6847`
-Base44 commit: `7c4f6c1aa1f705a84836d7cee2ad0936b4fe857a`
+Final Base44 checkpoint: `6a9ff26aba4e2d93186fe1ff`
+Final Base44 commit: `6427f4051f20bba5fb3e15c3cfd4c1dec37b2c6e`
 Final Base44 build: exit 0.
 
-The matching GitHub application source was reconciled during RUN98:
+Matching GitHub application source was reconciled during RUN98:
 - `src/components/create/PreviewStep.jsx` commit `aff9c05630a595e4bd9a3e1a98d0f230fa7823c3`
 - `src/pages/Create.jsx` commit `d2c3436244b7baf1ecf29f561b065cdc1b9bff0c`
+- `src/pages/companion/CompanionCreate.jsx` commit `4b30f4d09f71928bd2870a62ec086a741197a495`
 
 ## Distribution Queue
 Production-ready and unpublished as a marketing/measurement concept. Print My Story has 0/81 Base44 connectors connected. No external ad, social post, or publication receipt was verified.
