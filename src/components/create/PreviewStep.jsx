@@ -8,6 +8,12 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
   const [page, setPage] = useState(0);
   const [editing, setEditing] = useState(null);
   const [draft, setDraft] = useState("");
+  const [fitChecks, setFitChecks] = useState([]);
+  const fitOptions = [
+    ["recognizable", "It feels recognizably about them"],
+    ["tone_fit", "The tone feels right for the relationship"],
+    ["specific_detail", "At least one detail feels specific, not generic"],
+  ];
 
   // Pages: 0 = cover, 1 = dedication, 2..n = chapters, last = back note
   const totalPages = 2 + book.chapters.length + 1;
@@ -25,7 +31,7 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
     if (page === 0) {
       return (
         <div className="h-full flex flex-col justify-between bg-gradient-to-br from-stone-900 to-stone-700 text-stone-100 p-8">
-          <div className="text-xs font-mono text-amber-300 tracking-widest">A PRINT A STORY ORIGINAL</div>
+          <div className="text-xs font-mono text-amber-300 tracking-widest">A PRINT MY STORY ORIGINAL</div>
           <div>
             <div className="text-amber-300 text-sm mb-2">for</div>
             <h2 className="font-display text-4xl font-bold leading-tight">{book.book_title}</h2>
@@ -148,11 +154,29 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
         </Button>
       </div>
 
-      <div className="mt-8 flex justify-between max-w-md mx-auto">
+      <div className="mt-8 max-w-md mx-auto rounded-2xl border border-stone-200 bg-white p-4">
+        <p className="text-xs font-semibold text-stone-900">PMS-TXT-074 · Why did this preview earn checkout?</p>
+        <p className="mt-1 text-xs leading-relaxed text-stone-500">Optional quality check. Mark what is already true before you continue. These signals help us distinguish a generated preview from a gift-ready preview; they do not change the price or guarantee print fulfillment.</p>
+        <div className="mt-3 grid gap-2">
+          {fitOptions.map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setFitChecks((current) => current.includes(key) ? current.filter((item) => item !== key) : [...current, key])}
+              className={`rounded-xl border px-3 py-2 text-left text-xs font-medium transition ${fitChecks.includes(key) ? "border-stone-900 bg-stone-900 text-white" : "border-stone-200 bg-stone-50 text-stone-600 hover:border-stone-400"}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 text-[11px] text-stone-400">{fitChecks.length}/3 buyer-defined fit signals selected. Checkout is not gated on this self-check.</p>
+      </div>
+
+      <div className="mt-5 flex justify-between max-w-md mx-auto">
         <Button variant="ghost" onClick={onBack} className="rounded-full">
           <ArrowLeft className="w-4 h-4 mr-1" /> Back
         </Button>
-        <Button onClick={onNext} className="bg-stone-900 hover:bg-stone-800 rounded-full px-6">
+        <Button onClick={() => onNext({ fitSignals: fitChecks })} className="bg-stone-900 hover:bg-stone-800 rounded-full px-6">
           Looks great — Checkout <ArrowRight className="w-4 h-4 ml-1" />
         </Button>
       </div>
