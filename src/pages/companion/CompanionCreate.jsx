@@ -9,6 +9,7 @@ import QuestionnaireStep from "@/components/create/QuestionnaireStep";
 import GenerationStep from "@/components/create/GenerationStep";
 import PreviewStep from "@/components/create/PreviewStep";
 import CheckoutStep from "@/components/create/CheckoutStep";
+import { trackStoryGrowth } from "@/lib/growthAnalytics";
 
 const DEFAULT_ANSWERS = {
   pronouns: "",
@@ -166,7 +167,30 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
             book={book}
             onEditChapter={editChapter}
             onEditDedication={editDedication}
-            onNext={() => setStep(5)}
+            onNext={({ fitSignals = [] } = {}) => {
+              trackStoryGrowth("preview_approved", {
+                relationshipCategory: relationship,
+                tone: details.tone,
+                metadata: {
+                  approval_surface: "companion_book_preview",
+                  measurement_version: "run98-v1",
+                  buyer_fit_signal_count: fitSignals.length,
+                  buyer_fit_signals: fitSignals,
+                  checkout_gated_on_fit_signal: false,
+                },
+              });
+              trackStoryGrowth("checkout_view", {
+                relationshipCategory: relationship,
+                tone: details.tone,
+                metadata: {
+                  buyer_fit_signal_count: fitSignals.length,
+                  buyer_fit_signals: fitSignals,
+                  companion_edition: true,
+                  measurement_version: "run98-v1",
+                },
+              });
+              setStep(5);
+            }}
             onBack={() => setStep(2)}
           />
         )}
