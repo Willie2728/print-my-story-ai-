@@ -197,9 +197,27 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
             book={book}
             onEditChapter={editChapter}
             onEditDedication={editDedication}
-            onNext={() => {
-              trackStoryGrowth("preview_approved", { relationshipCategory: relationship, tone: details.tone, metadata: { approval_surface: "book_preview", measurement_version: "run80-v1" } });
-              trackStoryGrowth("checkout_view", { relationshipCategory: relationship, tone: details.tone });
+            onNext={({ fitSignals = [] } = {}) => {
+              trackStoryGrowth("preview_approved", {
+                relationshipCategory: relationship,
+                tone: details.tone,
+                metadata: {
+                  approval_surface: "book_preview",
+                  measurement_version: "run98-v1",
+                  buyer_fit_signal_count: fitSignals.length,
+                  buyer_fit_signals: fitSignals,
+                  checkout_gated_on_fit_signal: false,
+                },
+              });
+              trackStoryGrowth("checkout_view", {
+                relationshipCategory: relationship,
+                tone: details.tone,
+                metadata: {
+                  buyer_fit_signal_count: fitSignals.length,
+                  buyer_fit_signals: fitSignals,
+                  measurement_version: "run98-v1",
+                },
+              });
               setStep(5);
             }}
             onBack={() => setStep(2)}
