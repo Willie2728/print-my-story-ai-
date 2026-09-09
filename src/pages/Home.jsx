@@ -20,7 +20,7 @@ const steps = [
   { icon: PenLine, title: "Share only what belongs in the gift", desc: "Choose the details you want to use. Every prompt is skippable, so personalization never requires oversharing." },
   { icon: Sparkles, title: "AI writes the book", desc: "Our comedy engine crafts a multi-chapter manuscript tailored to your answers." },
   { icon: Laugh, title: "Preview & tweak", desc: "Flip through a live book preview and edit any joke until it lands perfectly." },
-  { icon: Truck, title: "Checkout & fulfillment", desc: "Continue to checkout when you're ready. Print fulfillment and shipping depend on the configured payment and fulfillment services being available." },
+  { icon: Truck, title: "Checkout & fulfillment", desc: "Continue only when the preview feels gift-ready. Final item price, shipping, tax, address eligibility, and delivery timing are confirmed in Stripe when checkout is available; fulfillment still requires a confirmed paid order." },
 ];
 
 const giftIdeas = [
@@ -79,7 +79,7 @@ export default function Home() {
             <Button onClick={() => goToPreview("hero")} size="lg" className="bg-stone-900 hover:bg-stone-800 rounded-full text-base px-8 h-12">
               Start Your Preview <ArrowRight className="w-4 h-4 ml-1" />
             </Button>
-            <span className="text-sm text-stone-500">Preview before checkout · Shipping timing shown during ordering</span>
+            <span className="text-sm text-stone-500">Free preview · Final price, shipping, tax, eligibility & delivery timing are confirmed in checkout</span>
           </div>
 
           {/* Relationship chips */}
@@ -169,7 +169,8 @@ export default function Home() {
       {/* Final CTA */}
       <section className="max-w-4xl mx-auto px-6 pb-24 text-center">
         <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">Ready to make them laugh?</h2>
-        <p className="text-stone-600 mb-8 text-lg">Answer the guided questions, review the draft, and edit the pages before you decide whether to continue to checkout.</p>
+        <p className="text-stone-600 mb-3 text-lg">Answer the guided questions, review the draft, and edit the pages before you decide whether to continue to checkout.</p>
+        <p className="mx-auto mb-8 max-w-2xl text-xs leading-relaxed text-stone-500">PMS-TXT-079 · Preview first, price the order second. The preview is the creative decision; Stripe checkout is where final item price, shipping, tax, address eligibility, and delivery timing are confirmed when available. A preview does not create a paid order, print job, shipment, or delivery promise.</p>
         <Button onClick={() => goToPreview("final_cta")} size="lg" className="bg-stone-900 hover:bg-stone-800 rounded-full text-base px-8 h-12">
           Start Your Preview <ArrowRight className="w-4 h-4 ml-1" />
         </Button>
