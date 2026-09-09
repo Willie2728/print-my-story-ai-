@@ -17,6 +17,16 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
       return;
     }
     setSubmitting(true);
+    trackStoryGrowth("checkout_intent", {
+      relationshipCategory: book.relationship || "",
+      tone: book.tone || "",
+      metadata: {
+        checkout_provider: "stripe",
+        intent_only: true,
+        payment_confirmed: false,
+        fulfillment_started: false,
+      },
+    });
     try {
       const growth = storyCheckoutAttribution();
       const res = await base44.functions.invoke("create-checkout-session", { book, success_path: successPath, cancel_path: cancelPath, ...growth });
@@ -44,6 +54,7 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
       <h2 className="font-display text-3xl font-bold mb-2">Checkout</h2>
       <p className="text-stone-500 mb-8">Your preview earned the checkout. Shipping and phone details stay out of the story studio and are collected only inside Stripe when you continue.</p>
+      <p className="-mt-5 mb-8 text-xs leading-relaxed text-stone-400">PMS-TXT-076 measurement note: choosing Continue to Stripe records checkout intent separately from checkout-session creation and payment confirmation, so buyer intent is not mistaken for a completed order.</p>
 
       {error && (
         <div className="mb-6 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">{error}</div>
