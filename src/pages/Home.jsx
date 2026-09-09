@@ -17,7 +17,7 @@ const relationships = [
 ];
 
 const steps = [
-  { icon: PenLine, title: "Share the scoop", desc: "Answer a fun 10-question quiz about your person — quirks, inside jokes, the works." },
+  { icon: PenLine, title: "Share only what belongs in the gift", desc: "Choose the details you want to use. Every prompt is skippable, so personalization never requires oversharing." },
   { icon: Sparkles, title: "AI writes the book", desc: "Our comedy engine crafts a multi-chapter manuscript tailored to your answers." },
   { icon: Laugh, title: "Preview & tweak", desc: "Flip through a live book preview and edit any joke until it lands perfectly." },
   { icon: Truck, title: "Checkout & fulfillment", desc: "Continue to checkout when you're ready. Print fulfillment and shipping depend on the configured payment and fulfillment services being available." },
@@ -73,7 +73,7 @@ export default function Home() {
             A real book about your favorite person, people or pets — customized by you.
           </h1>
           <p className="mt-6 text-lg md:text-xl text-stone-600 max-w-2xl mx-auto">
-            Answer a few questions and our AI drafts a personalized book you can preview and edit page by page before checkout. Print fulfillment and shipping depend on the connected payment and fulfillment services being configured and available.
+            Choose the details you want to share and our AI drafts a personalized book you can preview and edit page by page before checkout. Every story prompt is skippable, and sensitive details are not needed. Print fulfillment and shipping depend on the connected payment and fulfillment services being configured and available.
           </p>
           <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Button onClick={() => goToPreview("hero")} size="lg" className="bg-stone-900 hover:bg-stone-800 rounded-full text-base px-8 h-12">
