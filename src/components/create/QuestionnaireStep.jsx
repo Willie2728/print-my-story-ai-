@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { VoiceInput } from "@/components/ui/voice-input";
 
 const QUESTIONS = [
   { key: "pronouns", q: "What are their pronouns?", placeholder: "e.g. she/her, he/him, they/them" },
@@ -33,11 +34,23 @@ export default function QuestionnaireStep({ answers, onChange, onNext, onBack })
     }
   };
 
+  const skip = () => {
+    onChange({ ...answers, [current.key]: "" });
+    if (isLast) {
+      onNext();
+    } else {
+      setIdx(idx + 1);
+    }
+  };
+
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-3">
         <h2 className="font-display text-3xl font-bold">The fun part</h2>
         <span className="text-sm text-stone-400 font-mono">{answeredCount}/{QUESTIONS.length} answered</span>
+      </div>
+      <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-relaxed text-amber-900">
+        PMS-TXT-077 · Personalize without oversharing. Share only details you would be comfortable seeing in the finished gift. Passwords, API keys, financial account data, government IDs, health details, employer/client confidential information, and other sensitive material are not needed. Every prompt can be skipped.
       </div>
 
       <div className="h-1 bg-stone-100 rounded-full mb-8 overflow-hidden">
@@ -60,15 +73,28 @@ export default function QuestionnaireStep({ answers, onChange, onNext, onBack })
           rows={3}
           className="rounded-xl resize-none"
         />
+        <div className="flex items-center justify-between mt-2">
+          <span className="text-xs text-stone-400">Tap the mic to speak your answer</span>
+          <VoiceInput
+            value={value}
+            onChange={(text) => onChange({ ...answers, [current.key]: text })}
+            className="h-9 w-9"
+          />
+        </div>
       </div>
 
-      <div className="mt-6 flex justify-between items-center">
+      <div className="mt-6 flex flex-wrap justify-between gap-3 items-center">
         <Button variant="ghost" onClick={() => (idx === 0 ? onBack() : setIdx(idx - 1))} className="rounded-full">
           <ArrowLeft className="w-4 h-4 mr-1" /> {idx === 0 ? "Back" : "Previous"}
         </Button>
-        <Button onClick={next} disabled={!value.trim()} className="bg-stone-900 hover:bg-stone-800 rounded-full px-6">
-          {isLast ? "Generate my book" : "Next"} <ArrowRight className="w-4 h-4 ml-1" />
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={skip} className="rounded-full px-5">
+            Skip this one
+          </Button>
+          <Button onClick={next} disabled={!value.trim()} className="bg-stone-900 hover:bg-stone-800 rounded-full px-6">
+            {isLast ? "Generate my book" : "Next"} <ArrowRight className="w-4 h-4 ml-1" />
+          </Button>
+        </div>
       </div>
     </motion.div>
   );
