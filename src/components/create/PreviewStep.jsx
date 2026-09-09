@@ -16,7 +16,6 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
     ["gift_safe", "I would be comfortable reading this aloud to them"],
   ];
 
-  // Pages: 0 = cover, 1 = dedication, 2..n = chapters, last = back note
   const totalPages = 2 + book.chapters.length + 1;
 
   const startEdit = (key, value) => {
@@ -50,21 +49,14 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
             <div className="w-full">
               <Textarea value={draft} onChange={(e) => setDraft(e.target.value)} rows={4} className="bg-white" />
               <div className="flex justify-center gap-2 mt-3">
-                <Button size="sm" onClick={saveDedication} className="rounded-full bg-stone-900">
-                  <Check className="w-4 h-4" />
-                </Button>
-                <Button size="sm" variant="ghost" onClick={() => setEditing(null)} className="rounded-full">
-                  <X className="w-4 h-4" />
-                </Button>
+                <Button size="sm" onClick={saveDedication} className="rounded-full bg-stone-900"><Check className="w-4 h-4" /></Button>
+                <Button size="sm" variant="ghost" onClick={() => setEditing(null)} className="rounded-full"><X className="w-4 h-4" /></Button>
               </div>
             </div>
           ) : (
             <div className="group relative">
               <p className="font-display text-xl italic text-stone-700 leading-relaxed">"{book.dedication}"</p>
-              <button
-                onClick={() => startEdit("dedication", book.dedication)}
-                className="mt-4 inline-flex items-center gap-1 text-xs text-stone-400 hover:text-stone-900"
-              >
+              <button onClick={() => startEdit("dedication", book.dedication)} className="mt-4 inline-flex items-center gap-1 text-xs text-stone-400 hover:text-stone-900">
                 <Pencil className="w-3 h-3" /> Edit
               </button>
             </div>
@@ -118,9 +110,7 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
           )}
         </div>
 
-        {chapter.footerJoke && (
-          <div className="mt-4 pt-4 border-t border-stone-100 text-xs italic text-amber-700">— {chapter.footerJoke}</div>
-        )}
+        {chapter.footerJoke && <div className="mt-4 pt-4 border-t border-stone-100 text-xs italic text-amber-700">— {chapter.footerJoke}</div>}
       </div>
     );
   };
@@ -132,28 +122,12 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
       <p className="text-xs text-stone-400 mb-8 text-center">Preview-ready is not print-ready: no order, payment, print job, shipment, or delivery is created until the later checkout and fulfillment steps are actually confirmed.</p>
 
       <div className="flex items-center justify-center gap-4">
-        <Button variant="ghost" size="icon" disabled={page === 0} onClick={() => setPage(page - 1)} className="rounded-full">
-          <ChevronLeft className="w-6 h-6" />
-        </Button>
-
+        <Button variant="ghost" size="icon" disabled={page === 0} onClick={() => setPage(page - 1)} className="rounded-full"><ChevronLeft className="w-6 h-6" /></Button>
         <div className="relative w-[300px] sm:w-[360px]">
-          <motion.div
-            key={page}
-            initial={{ rotateY: -15, opacity: 0.5 }}
-            animate={{ rotateY: 0, opacity: 1 }}
-            transition={{ duration: 0.35 }}
-            className="aspect-[3/4] rounded-r-2xl rounded-l-md shadow-2xl border border-stone-200 overflow-hidden"
-          >
-            {renderPage()}
-          </motion.div>
-          <div className="text-center text-xs text-stone-400 mt-3 font-mono">
-            page {page + 1} / {totalPages}
-          </div>
+          <motion.div key={page} initial={{ rotateY: -15, opacity: 0.5 }} animate={{ rotateY: 0, opacity: 1 }} transition={{ duration: 0.35 }} className="aspect-[3/4] rounded-r-2xl rounded-l-md shadow-2xl border border-stone-200 overflow-hidden">{renderPage()}</motion.div>
+          <div className="text-center text-xs text-stone-400 mt-3 font-mono">page {page + 1} / {totalPages}</div>
         </div>
-
-        <Button variant="ghost" size="icon" disabled={page === totalPages - 1} onClick={() => setPage(page + 1)} className="rounded-full">
-          <ChevronRight className="w-6 h-6" />
-        </Button>
+        <Button variant="ghost" size="icon" disabled={page === totalPages - 1} onClick={() => setPage(page + 1)} className="rounded-full"><ChevronRight className="w-6 h-6" /></Button>
       </div>
 
       <div className="mt-8 max-w-md mx-auto rounded-2xl border border-stone-200 bg-white p-4">
@@ -161,29 +135,19 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
         <p className="mt-1 text-xs leading-relaxed text-stone-500">Optional quality check. Mark what is already true before you continue. These signals help distinguish a generated preview from a gift-ready preview without requiring more personal data; they do not change the price or guarantee print fulfillment.</p>
         <div className="mt-3 grid gap-2">
           {fitOptions.map(([key, label]) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setFitChecks((current) => current.includes(key) ? current.filter((item) => item !== key) : [...current, key])}
-              className={`rounded-xl border px-3 py-2 text-left text-xs font-medium transition ${fitChecks.includes(key) ? "border-stone-900 bg-stone-900 text-white" : "border-stone-200 bg-stone-50 text-stone-600 hover:border-stone-400"}`}
-            >
-              {label}
-            </button>
+            <button key={key} type="button" onClick={() => setFitChecks((current) => current.includes(key) ? current.filter((item) => item !== key) : [...current, key])} className={`rounded-xl border px-3 py-2 text-left text-xs font-medium transition ${fitChecks.includes(key) ? "border-stone-900 bg-stone-900 text-white" : "border-stone-200 bg-stone-50 text-stone-600 hover:border-stone-400"}`}>{label}</button>
           ))}
         </div>
         <p className="mt-2 text-[11px] text-stone-400">{fitChecks.length}/{fitOptions.length} buyer-defined fit signals selected. Checkout is not gated on this self-check.</p>
-        <a href="/marketing/PMS-DOC-001-gift-safe-personalization-card.html" target="_blank" rel="noreferrer" className="mt-3 inline-flex text-[11px] font-semibold text-stone-700 underline underline-offset-4 hover:text-stone-900">
-          Open the Gift-Safe Personalization Card →
-        </a>
+        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+          <a href="/marketing/PMS-DOC-001-gift-safe-personalization-card.html" target="_blank" rel="noreferrer" className="inline-flex text-[11px] font-semibold text-stone-700 underline underline-offset-4 hover:text-stone-900">Open the Gift-Safe Personalization Card →</a>
+          <a href="/marketing/PMS-DOC-002-recognition-test.html" target="_blank" rel="noreferrer" className="inline-flex text-[11px] font-semibold text-stone-700 underline underline-offset-4 hover:text-stone-900">Try the Recognition Test →</a>
+        </div>
       </div>
 
       <div className="mt-5 flex justify-between max-w-md mx-auto">
-        <Button variant="ghost" onClick={onBack} className="rounded-full">
-          <ArrowLeft className="w-4 h-4 mr-1" /> Back
-        </Button>
-        <Button onClick={() => onNext({ fitSignals: fitChecks })} className="bg-stone-900 hover:bg-stone-800 rounded-full px-6">
-          Continue to checkout <ArrowRight className="w-4 h-4 ml-1" />
-        </Button>
+        <Button variant="ghost" onClick={onBack} className="rounded-full"><ArrowLeft className="w-4 h-4 mr-1" /> Back</Button>
+        <Button onClick={() => onNext({ fitSignals: fitChecks })} className="bg-stone-900 hover:bg-stone-800 rounded-full px-6">Continue to checkout <ArrowRight className="w-4 h-4 ml-1" /></Button>
       </div>
     </motion.div>
   );
