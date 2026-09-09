@@ -13,6 +13,7 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
     ["recognizable", "It feels recognizably about them"],
     ["tone_fit", "The tone feels right for the relationship"],
     ["specific_detail", "At least one detail feels specific, not generic"],
+    ["gift_safe", "I would be comfortable reading this aloud to them"],
   ];
 
   // Pages: 0 = cover, 1 = dedication, 2..n = chapters, last = back note
@@ -155,8 +156,8 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
       </div>
 
       <div className="mt-8 max-w-md mx-auto rounded-2xl border border-stone-200 bg-white p-4">
-        <p className="text-xs font-semibold text-stone-900">PMS-TXT-074 · Why did this preview earn checkout?</p>
-        <p className="mt-1 text-xs leading-relaxed text-stone-500">Optional quality check. Mark what is already true before you continue. These signals help us distinguish a generated preview from a gift-ready preview; they do not change the price or guarantee print fulfillment.</p>
+        <p className="text-xs font-semibold text-stone-900">PMS-TXT-077 · Is this specific, tone-fit, and gift-safe?</p>
+        <p className="mt-1 text-xs leading-relaxed text-stone-500">Optional quality check. Mark what is already true before you continue. These signals help distinguish a generated preview from a gift-ready preview without requiring more personal data; they do not change the price or guarantee print fulfillment.</p>
         <div className="mt-3 grid gap-2">
           {fitOptions.map(([key, label]) => (
             <button
@@ -169,7 +170,10 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
             </button>
           ))}
         </div>
-        <p className="mt-2 text-[11px] text-stone-400">{fitChecks.length}/3 buyer-defined fit signals selected. Checkout is not gated on this self-check.</p>
+        <p className="mt-2 text-[11px] text-stone-400">{fitChecks.length}/{fitOptions.length} buyer-defined fit signals selected. Checkout is not gated on this self-check.</p>
+        <a href="/marketing/PMS-DOC-001-gift-safe-personalization-card.html" target="_blank" rel="noreferrer" className="mt-3 inline-flex text-[11px] font-semibold text-stone-700 underline underline-offset-4 hover:text-stone-900">
+          Open the Gift-Safe Personalization Card →
+        </a>
       </div>
 
       <div className="mt-5 flex justify-between max-w-md mx-auto">
