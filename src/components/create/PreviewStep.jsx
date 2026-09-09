@@ -127,8 +127,9 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
 
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-      <h2 className="font-display text-3xl font-bold mb-2 text-center">Your book is ready</h2>
-      <p className="text-stone-500 mb-8 text-center">Tap any text to edit. Flip through the pages.</p>
+      <h2 className="font-display text-3xl font-bold mb-2 text-center">Your story preview is ready</h2>
+      <p className="text-stone-500 mb-2 text-center">Tap any text to edit. Flip through the pages.</p>
+      <p className="text-xs text-stone-400 mb-8 text-center">Preview-ready is not print-ready: no order, payment, print job, shipment, or delivery is created until the later checkout and fulfillment steps are actually confirmed.</p>
 
       <div className="flex items-center justify-center gap-4">
         <Button variant="ghost" size="icon" disabled={page === 0} onClick={() => setPage(page - 1)} className="rounded-full">
@@ -181,7 +182,7 @@ export default function PreviewStep({ book, onEditChapter, onEditDedication, onN
           <ArrowLeft className="w-4 h-4 mr-1" /> Back
         </Button>
         <Button onClick={() => onNext({ fitSignals: fitChecks })} className="bg-stone-900 hover:bg-stone-800 rounded-full px-6">
-          Looks great — Checkout <ArrowRight className="w-4 h-4 ml-1" />
+          Continue to checkout <ArrowRight className="w-4 h-4 ml-1" />
         </Button>
       </div>
     </motion.div>
