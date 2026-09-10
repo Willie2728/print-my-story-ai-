@@ -52,6 +52,8 @@ export function trackStoryGrowth(eventType, fields = {}) {
     relationship_category: fields.relationshipCategory || "",
     tone: fields.tone || "",
     occurred_at: new Date().toISOString(),
+    environment: "production",
+    measurement_eligible: true,
     metadata: fields.metadata || {},
   }).catch(() => null);
 }
