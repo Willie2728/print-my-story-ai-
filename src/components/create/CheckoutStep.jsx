@@ -71,13 +71,12 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
         <div className="space-y-5">
           <div className="rounded-2xl border border-stone-200 bg-white p-5">
             <div className="flex items-center gap-2 mb-2">
-              <ShieldCheck className="w-5 h-5 text-stone-700 mt-0.5 shrink-0" />
-              <div>
-                <div className="text-sm text-stone-200">No payment credentials requested</div>
-                <p className="text-xs text-stone-400 mt-1">A live payment flow should begin only after a verified payment provider, commercial terms, availability, tax, shipping, and fulfillment path are connected.</p>
-              </div>
+              <ShieldCheck className="w-5 h-5 text-stone-700" />
+              <h3 className="font-semibold text-stone-900">Contact-last checkout</h3>
             </div>
-            <div className="text-sm text-stone-600">Shipping and phone details stay out of the story studio and are collected only inside Stripe when you continue.</div>
+            <p className="text-sm leading-relaxed text-stone-600">
+              Print My Story does not ask for your shipping address or phone number before a Stripe Checkout Session exists. Stripe collects the shipping information required for a paid order; the fulfillment record is updated only after the payment webhook confirms the completed session.
+            </p>
           </div>
 
           <div className="rounded-2xl border border-stone-200 bg-white p-5">
