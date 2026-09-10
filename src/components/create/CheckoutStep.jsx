@@ -20,11 +20,14 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
     trackStoryGrowth("checkout_intent", {
       relationshipCategory: book.relationship || "",
       tone: book.tone || "",
+      dedupeKey: "checkout_intent",
       metadata: {
         checkout_provider: "stripe",
         intent_only: true,
         payment_confirmed: false,
         fulfillment_started: false,
+        measurement_version: "run148-v1",
+        conversion_asset_id: "PMS-TXT-083",
       },
     });
     try {
@@ -35,12 +38,15 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
       await trackStoryGrowth("checkout_session_created", {
         relationshipCategory: book.relationship || "",
         tone: book.tone || "",
+        dedupeKey: "checkout_session_created",
         metadata: {
           checkout_provider: "stripe",
           book_record_created: Boolean(res.data?.book_id),
           shipping_collection_surface: "stripe_checkout",
           phone_collection_surface: "stripe_checkout",
           precheckout_shipping_pii_collected: false,
+          measurement_version: "run148-v1",
+          conversion_asset_id: "PMS-TXT-083",
         },
       });
       window.location.href = url;
@@ -54,7 +60,8 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
       <h2 className="font-display text-3xl font-bold mb-2">Checkout</h2>
       <p className="text-stone-500 mb-8">Your preview earned the checkout. Shipping and phone details stay out of the story studio and are collected only inside Stripe when you continue.</p>
-      <p className="-mt-5 mb-8 text-xs leading-relaxed text-stone-400">PMS-TXT-076 measurement note: choosing Continue to Stripe records checkout intent separately from checkout-session creation and payment confirmation, so buyer intent is not mistaken for a completed order.</p>
+      <p className="-mt-5 mb-2 text-xs leading-relaxed text-stone-400">PMS-TXT-083: if the preview does not feel specific enough to gift, do not pay yet. Go back, fix the generic line, and let the preview earn checkout.</p>
+      <p className="mb-8 text-xs leading-relaxed text-stone-400">Growth measurement counts checkout intent and checkout-session creation once per anonymous browser session so retries and repeated clicks are not mistaken for new buyer demand. <a href="/marketing/PMS-DOC-004-preview-earns-checkout.html" target="_blank" rel="noreferrer" className="underline">Open the Preview Earns Checkout card →</a></p>
 
       {error && (
         <div className="mb-6 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">{error}</div>
@@ -64,12 +71,13 @@ export default function CheckoutStep({ book, onBack, successPath = "/order-succe
         <div className="space-y-5">
           <div className="rounded-2xl border border-stone-200 bg-white p-5">
             <div className="flex items-center gap-2 mb-2">
-              <ShieldCheck className="w-5 h-5 text-stone-700" />
-              <h3 className="font-semibold text-stone-900">Contact-last checkout</h3>
+              <ShieldCheck className="w-5 h-5 text-stone-700 mt-0.5 shrink-0" />
+              <div>
+                <div className="text-sm text-stone-200">No payment credentials requested</div>
+                <p className="text-xs text-stone-400 mt-1">A live payment flow should begin only after a verified payment provider, commercial terms, availability, tax, shipping, and fulfillment path are connected.</p>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed text-stone-600">
-              Print My Story does not ask for your shipping address or phone number before a Stripe Checkout Session exists. Stripe collects the shipping information required for a paid order; the fulfillment record is updated only after the payment webhook confirms the completed session.
-            </p>
+            <div className="text-sm text-stone-600">Shipping and phone details stay out of the story studio and are collected only inside Stripe when you continue.</div>
           </div>
 
           <div className="rounded-2xl border border-stone-200 bg-white p-5">
