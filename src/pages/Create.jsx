@@ -203,7 +203,8 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
                 tone: details.tone,
                 metadata: {
                   approval_surface: "book_preview",
-                  measurement_version: "run98-v1",
+                  measurement_version: "run142-v1",
+                  conversion_asset_id: "PMS-TXT-082",
                   buyer_fit_signal_count: fitSignals.length,
                   buyer_fit_signals: fitSignals,
                   checkout_gated_on_fit_signal: false,
@@ -215,7 +216,8 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
                 metadata: {
                   buyer_fit_signal_count: fitSignals.length,
                   buyer_fit_signals: fitSignals,
-                  measurement_version: "run98-v1",
+                  measurement_version: "run142-v1",
+                  conversion_asset_id: "PMS-TXT-082",
                 },
               });
               setStep(5);
