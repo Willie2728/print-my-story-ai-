@@ -171,6 +171,7 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
               trackStoryGrowth("preview_approved", {
                 relationshipCategory: relationship,
                 tone: details.tone,
+                dedupeKey: "preview_approved",
                 metadata: {
                   approval_surface: "companion_book_preview",
                   measurement_version: "run98-v1",
@@ -182,6 +183,7 @@ Return ONLY JSON matching the schema. Be specific and personal — reference the
               trackStoryGrowth("checkout_view", {
                 relationshipCategory: relationship,
                 tone: details.tone,
+                dedupeKey: "checkout_view",
                 metadata: {
                   buyer_fit_signal_count: fitSignals.length,
                   buyer_fit_signals: fitSignals,
