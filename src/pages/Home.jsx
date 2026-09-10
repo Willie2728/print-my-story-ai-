@@ -33,7 +33,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const goToPreview = async (surface) => {
-    await trackStoryGrowth("preview_cta_click", { metadata: { surface, measurement_version: "run76-v1" } });
+    await trackStoryGrowth("preview_cta_click", { dedupeKey: `PMS-TXT-084:${surface}`, metadata: { surface, conversion_asset_id: "PMS-TXT-084", measurement_version: "run152-v1" } });
     navigate("/create");
   };
 
@@ -41,7 +41,7 @@ export default function Home() {
     const key = "print_my_story_landing_view_tracked";
     if (sessionStorage.getItem(key)) return;
     sessionStorage.setItem(key, "1");
-    trackStoryGrowth("landing_view", { metadata: { measurement_version: "run70-v1" } });
+    trackStoryGrowth("landing_view", { metadata: { conversion_asset_id: "PMS-TXT-084", measurement_version: "run152-v1" } });
   }, []);
 
   return (
@@ -70,10 +70,10 @@ export default function Home() {
             <Sparkles className="w-4 h-4" /> AI-assisted personalized book studio
           </div>
           <h1 className="font-display text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] max-w-4xl mx-auto">
-            A real book about your favorite person, people or pets — customized by you.
+            Use AI to make a gift that ends up off the screen.
           </h1>
           <p className="mt-6 text-lg md:text-xl text-stone-600 max-w-2xl mx-auto">
-            Choose the details you want to share and our AI drafts a personalized book you can preview and edit page by page before checkout. Every story prompt is skippable, and sensitive details are not needed. Print fulfillment and shipping depend on the connected payment and fulfillment services being configured and available.
+            Turn real memories, inside jokes, and the details you choose into a personalized book you can preview and edit page by page. Keep changing the draft until it feels specific enough to gift, then decide whether to continue to checkout. Every story prompt is skippable, and print fulfillment and shipping still depend on the connected payment and fulfillment services being configured and available.
           </p>
           <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Button onClick={() => goToPreview("hero")} size="lg" className="bg-stone-900 hover:bg-stone-800 rounded-full text-base px-8 h-12">
@@ -168,9 +168,9 @@ export default function Home() {
 
       {/* Final CTA */}
       <section className="max-w-4xl mx-auto px-6 pb-24 text-center">
-        <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">Ready to make them laugh?</h2>
-        <p className="text-stone-600 mb-3 text-lg">Answer the guided questions, review the draft, and edit the pages before you decide whether to continue to checkout.</p>
-        <p className="mx-auto mb-8 max-w-2xl text-xs leading-relaxed text-stone-500">PMS-TXT-079 · Preview first, price the order second. The preview is the creative decision; Stripe checkout is where final item price, shipping, tax, address eligibility, and delivery timing are confirmed when available. A preview does not create a paid order, print job, shipment, or delivery promise.</p>
+        <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">Make something worth leaving the screen for.</h2>
+        <p className="text-stone-600 mb-3 text-lg">Start with one real memory or harmless detail, review the AI draft, and keep editing until the preview feels like a gift from you rather than a generic template.</p>
+        <p className="mx-auto mb-8 max-w-2xl text-xs leading-relaxed text-stone-500">PMS-TXT-084 · Use AI to make a gift that ends up off the screen. The preview has to earn checkout: make it recognizably specific first, then confirm final item price, shipping, tax, address eligibility, and delivery timing through checkout when available. A preview does not create a paid order, print job, shipment, or delivery promise. <a href="/marketing/PMS-DOC-005-off-screen-gift-brief.html" target="_blank" rel="noreferrer" className="underline">Open the Off-Screen Gift Brief →</a></p>
         <Button onClick={() => goToPreview("final_cta")} size="lg" className="bg-stone-900 hover:bg-stone-800 rounded-full text-base px-8 h-12">
           Start Your Preview <ArrowRight className="w-4 h-4 ml-1" />
         </Button>
