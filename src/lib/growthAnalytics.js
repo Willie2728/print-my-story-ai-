@@ -42,6 +42,11 @@ export function getStoryAttribution() {
 export function trackStoryGrowth(eventType, fields = {}) {
   if (isPreviewRuntime()) return Promise.resolve(null);
   const { sessionId, source, campaign, contentVariant } = getStoryAttribution();
+  const dedupeKey = fields.dedupeKey
+    ? `print_my_story_growth_signal:${sessionId}:${eventType}:${fields.dedupeKey}`
+    : null;
+  if (dedupeKey && sessionStorage.getItem(dedupeKey)) return Promise.resolve(null);
+  if (dedupeKey) sessionStorage.setItem(dedupeKey, "1");
   return base44.entities.StoryGrowthEvent.create({
     event_type: eventType,
     session_id: sessionId,
@@ -54,8 +59,14 @@ export function trackStoryGrowth(eventType, fields = {}) {
     occurred_at: new Date().toISOString(),
     environment: "production",
     measurement_eligible: true,
-    metadata: fields.metadata || {},
-  }).catch(() => null);
+    metadata: {
+      ...(fields.metadata || {}),
+      ...(dedupeKey ? { dedupe_scope: fields.dedupeKey } : {}),
+    },
+  }).catch(() => {
+    if (dedupeKey) sessionStorage.removeItem(dedupeKey);
+    return null;
+  });
 }
 
 export function storyCheckoutAttribution() {
