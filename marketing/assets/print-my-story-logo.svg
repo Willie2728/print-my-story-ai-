@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="78%"><stop stop-color="#21344b"/><stop offset="1" stop-color="#081321"/></radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7e7b8"/><stop offset=".48" stop-color="#caa86b"/><stop offset="1" stop-color="#f3d49a"/></linearGradient>
+  </defs>
+  <rect width="1200" height="1200" rx="170" fill="url(#bg)"/>
+  <rect x="60" y="60" width="1080" height="1080" rx="118" fill="none" stroke="url(#gold)" stroke-width="3" opacity=".68"/>
+  <path d="M236 370C363 320 479 336 600 418c121-82 237-98 364-48v380c-133-44-248-22-364 57-116-79-231-101-364-57z" fill="none" stroke="url(#gold)" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M600 418v389M296 446c113-26 195-9 266 40M904 446c-113-26-195-9-266 40M296 555c113-26 195-9 266 40M904 555c-113-26-195-9-266 40" fill="none" stroke="url(#gold)" stroke-width="9" stroke-linecap="round" opacity=".76"/>
+  <path d="M600 290l10 33 33 10-33 10-10 33-10-33-33-10 33-10zM735 286l6 20 20 6-20 6-6 20-6-20-20-6 20-6z" fill="#e9cf91"/>
+  <text x="600" y="951" fill="#f6ecd2" font-family="Georgia,serif" font-size="76" text-anchor="middle" letter-spacing="4">PRINT MY STORY</text>
+  <text x="600" y="1008" fill="#d4b778" font-family="Arial,sans-serif" font-size="24" text-anchor="middle" letter-spacing="8">PERSONALIZED BOOK STUDIO</text>
+</svg>
